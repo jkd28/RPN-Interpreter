@@ -42,9 +42,11 @@ public class RPN {
             int error = 0;
             if (args.length == 0) {
                 error = repl();
+            } else {
+                //TODO add file handling
             }
         } catch (RuntimeException e ) {
-            System.err.println("An error occurred.  Exiting...");
+            System.err.println("An unexpected error occurred.  Exiting...");
             System.exit(5);
         }
     }
