@@ -76,26 +76,7 @@ public class Statement {
         return new String(newLine);
     }
 
-    // Evaluation Methods
-    public String parseString(String line){
-        String[] brokenLine = line.split(" ");
-
-        // check for a keyword
-        if (brokenLine[0].equals("let")) {
-            setLet();
-            this.statementOutput = handleLet(brokenLine);
-        } else if (brokenLine[0].equals("quit")){
-            setQuit();
-        } else if (brokenLine[0].equals("print")) {
-            setPrint();
-            this.statementOutput = handlePrint(brokenLine);
-        } else {
-            this.statementOutput = handleNoRecognizedKeyWord(line);
-        }
-        return statementOutput;
-    }
-
-    public String handleLet(String[] brokenLine) {
+    private String handleLet(String[] brokenLine) {
         String builtOutput = "";
 
         if (brokenLine.length <= 2) {
@@ -124,7 +105,7 @@ public class Statement {
         return builtOutput;
     }
 
-    public String handlePrint(String[] brokenLine) {
+    private String handlePrint(String[] brokenLine) {
         String builtOutput = "";
         // We have a PRINT keyword, the rest of the line is the expression
         String newLine = buildNewString(1, brokenLine);
@@ -142,9 +123,10 @@ public class Statement {
         return builtOutput;
     }
 
-    public String handleNoRecognizedKeyWord(String line) {
+    private String handleNoRecognizedKeyWord(String line) {
         String builtOutput = "";
         String[] lineArray = line.split(" ");
+
         // Check that the first entry contains letters and is larger than 1 character long (can't be a variable then)
         if ((lineArray[0].matches(".*[a-z].*")) && (lineArray[0].length() != 1)) {
             setError();
@@ -162,5 +144,25 @@ public class Statement {
             builtOutput = expression.getResult();
         }
         return builtOutput;
+    }
+
+    // Evaluation Methods
+    public String parseString(String line){
+        String[] brokenLine = line.split(" ");
+
+        // check for a keyword
+        if (brokenLine[0].equals("let")) {
+            setLet();
+            this.statementOutput = handleLet(brokenLine);
+        } else if (brokenLine[0].equals("quit")){
+            setQuit();
+            this.statementOutput = "";
+        } else if (brokenLine[0].equals("print")) {
+            setPrint();
+            this.statementOutput = handlePrint(brokenLine);
+        } else {
+            this.statementOutput = handleNoRecognizedKeyWord(line);
+        }
+        return statementOutput;
     }
 }
