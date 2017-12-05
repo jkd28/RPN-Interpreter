@@ -14,14 +14,23 @@ public class RPN {
         while (!quitSignal) {
             System.out.print("> ");
             input = (reader.nextLine()).trim().toLowerCase();
+            if (input.equals("")) {
+                lineNum++;
+                continue;
+            }
             Statement line = new Statement(lineNum, variableMap);
-            String output = line.parseString(input);
-
+            line.parseString(input);
+            String output = line.getOutput();
             if (line.isLet() && !line.isError()) {
                 variableMap.put(line.getVariable(), new BigInteger(output));
             }
 
-            System.out.println(line.getOutput());
+            if (line.isError()) {
+                System.err.println(output);
+            } else {
+                System.out.println(output);
+            }
+
             quitSignal = line.isQuit();
             lineNum++;
         }

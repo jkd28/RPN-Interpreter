@@ -10,18 +10,30 @@ public class Expression {
     private boolean error;
     private HashMap<String, BigInteger> variableMap;
 
-    public Expression(String statement, HashMap<String, BigInteger> variables) {
+    public Expression() {
         expressionStack = new Stack<String>();
-        variableMap = variables;
+        variableMap = new HashMap<String,BigInteger>();
         error = false;
         errorMessage = "";
-
-        evaluate(replaceVariables(statement, variableMap));
     }
 
+    public String getResult() {
+        return result;
+    }
+
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    public boolean error() {
+        return error;
+    }
     // This method takes a String and a HashMap of variables and replaces each instance of
     // a variable with its stored BigInteger value
     public String replaceVariables(String line, HashMap<String, BigInteger> variables) {
+        if (variables == null) {
+            return "";
+        }
         if (line.matches(".*[a-z].*")){
             // the expression contains some variables, so we need to replace them
             char[] lineArray = line.toCharArray();
@@ -34,15 +46,15 @@ public class Expression {
                     String strValue = Character.toString(operand);
                     if (variables.containsKey(strValue)) {
                         BigInteger value = variables.get(strValue);
-                        lineArray[i] = value.toString().charAt(0);
+                        line = line.replace(strValue, value.toString());
                     } else {
-                        System.out.println("SHOULD BE A VARIABLE, BUT IT'S NOT. IT IS NOT. OH HAI MARK");
+                        error = true;
+                        errorMessage = "Variable " + operand + " is not initialized";
+                        return errorMessage;
                     }
-                } else {
-                    System.out.println("NOT A VARIABL");
                 }
             }
-            return new String(lineArray);
+            return line;
         } else {
             return line;
         }
@@ -52,7 +64,10 @@ public class Expression {
     // specified by the project
     // Return: The string form of the result of the expressions (or the proper error
     //         statement with error flags set)
-    public void evaluate(String statement) {
+    public String evaluate(String statement) {
+        if (error) {
+            return this.errorMessage;
+        }
         Scanner tokenReader = new Scanner(statement);
         boolean noOperand = true;
         while(tokenReader.hasNext()) {
@@ -78,14 +93,14 @@ public class Expression {
                         throw new ArithmeticException();
                     }
                 } catch (RuntimeException e){
-                    error = true;
-                    errorMessage = "Could not evaluate expression";
-                    return;
+                    this.error = true;
+                    this.errorMessage = "Could not evaluate expression";
+                    return this.errorMessage;
                 }
             }
         }
 
-        result = expressionStack.pop();
+        this.result = expressionStack.pop();
         int count = 0;
         if (noOperand && !expressionStack.empty()){
             count = 1;
@@ -97,21 +112,10 @@ public class Expression {
             expressionStack.pop();
         }
         if (count != 0) {
-            error = true;
-            errorMessage = count + " elements in stack after evaluation";
+            this.error = true;
+            this.errorMessage = count + " elements in stack after evaluation";
+            return this.errorMessage;
         }
-        return;
-    }
-
-    public String getResult() {
-        return result;
-    }
-
-    public String getErrorMessage() {
-        return errorMessage;
-    }
-
-    public boolean error() {
-        return error;
+        return this.result;
     }
 }
