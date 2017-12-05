@@ -38,9 +38,14 @@ public class RPN {
     }
 
     public static void main(String[] args) {
-        int error = 0;
-        if (args.length == 0) {
-            error = repl();
+        try {
+            int error = 0;
+            if (args.length == 0) {
+                error = repl();
+            }
+        } catch (RuntimeException e ) {
+            System.err.println("An error occurred.  Exiting...");
+            System.exit(5);
         }
     }
 }

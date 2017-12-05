@@ -36,12 +36,15 @@ public class Expression {
         }
         if (line.matches(".*[a-z].*")){
             // the expression contains some variables, so we need to replace them
-            char[] lineArray = line.toCharArray();
+            String[] lineArray = line.split(" ");
             for(int i = 0; i < lineArray.length; i++) {
-                char operand = lineArray[i];
-                if (operand == ' ') {
+                //ensure we only deal with individual characters
+                if (lineArray[i].length() != 1){
                     continue;
                 }
+
+                char operand = lineArray[i].charAt(0);
+
                 if (Character.isLetter(operand)) {
                     String strValue = Character.toString(operand);
                     if (variables.containsKey(strValue)) {
@@ -70,16 +73,20 @@ public class Expression {
         }
         Scanner tokenReader = new Scanner(statement);
         boolean noOperand = true;
+        BigInteger operand2 = new BigInteger("0");
+        BigInteger operand1 = new BigInteger("0");
+        String operator = "";
+
         while(tokenReader.hasNext()) {
             if (tokenReader.hasNextBigInteger()) {
                 expressionStack.push(tokenReader.nextBigInteger().toString());
             } else {
                 try {
                     noOperand = false;
-                    BigInteger operand2 = new BigInteger(expressionStack.pop());
-                    BigInteger operand1 = new BigInteger(expressionStack.pop());
 
-                    String operator = tokenReader.next();
+                    operand2 = new BigInteger(expressionStack.pop());
+                    operand1 = new BigInteger(expressionStack.pop());
+                    operator = tokenReader.next();
 
                     if (operator.equals("+")) {
                         expressionStack.push(operand1.add(operand2).toString());
@@ -92,9 +99,13 @@ public class Expression {
                     } else {
                         throw new ArithmeticException();
                     }
-                } catch (RuntimeException e){
+                } catch(ArithmeticException e ) {
                     this.error = true;
                     this.errorMessage = "Could not evaluate expression";
+                    return this.errorMessage;
+                } catch (RuntimeException e){
+                    this.error = true;
+                    this.errorMessage = "Operator " +  operator + " applied to empty stack";
                     return this.errorMessage;
                 }
             }

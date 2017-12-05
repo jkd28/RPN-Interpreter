@@ -178,7 +178,7 @@ public class ExpressionTest {
     // Test that evaluate properly returns an error message on invalid input
     @Test
     public void testEvaluateInvalidInput() {
-        String testString = "1 2 LET +";
+        String testString = "4 3 LET + a";
         String expected = "Could not evaluate expression";
         String observed = testExpression.evaluate(testString);
         assertEquals(expected, observed);
@@ -189,6 +189,15 @@ public class ExpressionTest {
     public void testEvaluateDivisionByZero() {
         String testString = "1 0 /";
         String expected = "Could not evaluate expression";
+        String observed = testExpression.evaluate(testString);
+        assertEquals(expected, observed);
+    }
+
+    // Test that proper message is output for the incorrect inut
+    @Test
+    public void testEvaluateInvalidOperator() {
+        String testString = " 1 2 + +";
+        String expected = "Operator + applied to empty stack";
         String observed = testExpression.evaluate(testString);
         assertEquals(expected, observed);
     }

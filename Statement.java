@@ -7,6 +7,7 @@ public class Statement {
     private Expression expression;
     private boolean isQuitStatement;
     private boolean isLetStatement;
+    private boolean isPrintStatement;
     private boolean isError;
     private String variable;
     private int lineNumber;
@@ -16,6 +17,7 @@ public class Statement {
         statementOutput = "";
         isQuitStatement = false;
         isLetStatement = false;
+        isPrintStatement = false;
         isError = false;
         variable = "";
         lineNumber = lineNum;
@@ -43,6 +45,10 @@ public class Statement {
         return this.isLetStatement;
     }
 
+    public boolean isPrint() {
+        return this.isPrintStatement;
+    }
+
     // SETTERS
     private void setQuit() {
         this.isQuitStatement = true;
@@ -52,8 +58,22 @@ public class Statement {
         this.isLetStatement = true;
     }
 
+    private void setPrint() {
+        this.isPrintStatement = true;
+    }
+
     private void setError() {
         this.isError = true;
+    }
+
+    // Helper methods
+    private String buildNewString(int startIndex, String[] array) {
+        StringBuilder newLine = new StringBuilder();
+        for (int i = startIndex; i < array.length; i++){
+            newLine.append(array[i]);
+            newLine.append(" ");
+        }
+        return new String(newLine);
     }
 
     // Evaluation Methods
@@ -67,6 +87,7 @@ public class Statement {
         } else if (brokenLine[0].equals("quit")){
             setQuit();
         } else if (brokenLine[0].equals("print")) {
+            setPrint();
             this.statementOutput = handlePrint(brokenLine);
         } else {
             this.statementOutput = handleNoRecognizedKeyWord(line);
@@ -87,14 +108,12 @@ public class Statement {
         } else {
             this.variable = brokenLine[1];
 
-            StringBuilder newLine = new StringBuilder();
-            for (int i = 2; i < brokenLine.length; i++) {
-                newLine.append(brokenLine[i]);
-                newLine.append(" ");
-            }
+            String newLine = buildNewString(2, brokenLine);
+
             expression = new Expression();
-            String replacedLine = expression.replaceVariables(new String(newLine), variableMap);
+            String replacedLine = expression.replaceVariables(newLine, variableMap);
             expression.evaluate(replacedLine);
+
             if (expression.error()) {
                 setError();
                 builtOutput = "Line " + lineNumber + ": " + expression.getErrorMessage();
@@ -108,13 +127,9 @@ public class Statement {
     public String handlePrint(String[] brokenLine) {
         String builtOutput = "";
         // We have a PRINT keyword, the rest of the line is the expression
-        StringBuilder newLine = new StringBuilder();
-        for (int i = 1; i < brokenLine.length; i++) {
-            newLine.append(brokenLine[i]);
-            newLine.append(" ");
-        }
+        String newLine = buildNewString(1, brokenLine);
         expression = new Expression();
-        String replacedLine = expression.replaceVariables(new String(newLine), variableMap);
+        String replacedLine = expression.replaceVariables(newLine, variableMap);
         expression.evaluate(replacedLine);
 
         if (expression.error()) {
@@ -129,7 +144,14 @@ public class Statement {
 
     public String handleNoRecognizedKeyWord(String line) {
         String builtOutput = "";
-        // No keyword, everything is part of the expression
+        String[] lineArray = line.split(" ");
+        // Check that the first entry contains letters and is larger than 1 character long (can't be a variable then)
+        if ((lineArray[0].matches(".*[a-z].*")) && (lineArray[0].length() != 1)) {
+            setError();
+            builtOutput = "Line " + lineNumber + ": Unknown keyword " + lineArray[0];
+            return builtOutput;
+        }
+
         expression = new Expression();
         String replacedLine = expression.replaceVariables(line, variableMap);
         expression.evaluate(replacedLine);
