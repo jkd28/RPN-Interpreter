@@ -11,7 +11,7 @@ public class RPN {
 
         HashMap<String,BigInteger> variableMap = new HashMap<String, BigInteger>();
         boolean quitSignal = false;
-        int lineNum = 1;
+        long lineNum = 1;
         String input;
 
         while (!quitSignal) {

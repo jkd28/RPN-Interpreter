@@ -11,10 +11,10 @@ public class Statement {
     private boolean isError;
     private int errorCode;
     private String variable;
-    private int lineNumber;
+    private long lineNumber;
     private HashMap<String, BigInteger> variableMap;
 
-    public Statement(int lineNum, HashMap<String, BigInteger> variables){
+    public Statement(long lineNum, HashMap<String, BigInteger> variables){
         statementOutput = "";
         isQuitStatement = false;
         isLetStatement = false;
