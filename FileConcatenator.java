@@ -33,7 +33,10 @@ public class FileConcatenator {
         String entireFile = readLinesFromFile(filename);
         Scanner lineReader = new Scanner(entireFile);
         while(lineReader.hasNextLine()) {
-            combinedFileLines.add(lineReader.nextLine());
+            String next = lineReader.nextLine();
+            if (!next.equals("")) {
+                combinedFileLines.add(next.trim().toLowerCase(Locale.US));
+            }
         }
         return combinedFileLines;
     }
@@ -42,7 +45,7 @@ public class FileConcatenator {
         try {
             byte[] encoded = Files.readAllBytes(Paths.get(filename));
             String entireFile = new String(encoded, "UTF-8");
-            return entireFile.toLowerCase(Locale.US);
+            return entireFile;
         } catch (NoSuchFileException e) {
             this.errorMessage = "Could not find file '" + filename + "'";
             this.errorCode = 5;

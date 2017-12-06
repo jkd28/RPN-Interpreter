@@ -32,7 +32,7 @@ public class FileConcatenatorTest {
     @Test
     public void testFileRead() {
         String testReadFile = "testfiles/test1.rpn";
-        String expected = "let a 2 2 +\nlet c a 4 +\n1 2 3 4\nprint c\n";
+        String expected = "LET a 2 2 +\nLET c a 4 +\n1 2 3 4\nPRINT c\n";
         String observed = testFileCat.readLinesFromFile(testReadFile);
         assertEquals(0, testFileCat.getErrorCode());
         assertEquals(expected, observed);

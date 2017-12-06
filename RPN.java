@@ -18,7 +18,6 @@ public class RPN {
             System.out.print("> ");
             input = (reader.nextLine()).trim().toLowerCase(Locale.US);
             if (input.equals("")) {
-                lineNum++;
                 continue;
             }
             Statement line = new Statement(lineNum, variableMap);
