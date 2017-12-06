@@ -1,5 +1,14 @@
 # CS1632-Deliverable6
-## Description of Testing Strategy
+## Red-Yellow-Green Report  
+   | **Subsystems**       | Status  | Description |
+   |----------------------|:-------------|-------------|
+   | REPL                 | GREEN        | The REPL evaluator works as expected and passes all Unit Tests. I have no reasonable concerns.                            |
+   | FILE                 | GREEN        | The FILE evaluator works as expected and has passed all tests (unit, system, and manual).  I have no reasonable concerns. |
+   | ErrorReporting       | YELLOW       | The error reporting system could use some refactoring work, as it is somewhat clunky and might have issues with future maintainability.  This is not a major concern at this time.
+   | FileConcatenator     | YELLOW       | File Concatenation functions properly.  I have slight concerns about the performance, as it is very heavy on memory.  This leaves an implicit maximum size on files to be read in.  The maximum is incredibly large, so it is not a large concern at this time.  
+   | ExpressionEvaluation | GREEN        | Expression Evaluation functions as expected with proper handling of errors and exceptions regarding stack operations.  A look at performance optimization would be nice, but is certainly not required.  
+
+## Testing Strategies
  1. **What kinds of tests did you write? Why?**  
     First and foremost, I wrote a lot of Unit Tests.  There are many potential failure points throughout this system, and I wanted to be sure that each subsystem (Statement, Expression, FileConcatenator) was able to handle the errors I would expect from those sections.  This however, was not enough by itself.  Those individual subsystems may be able to handle the errors themselves, but assuring that they would report them properly was a separate issue that I would say falls in the realm of Integration Testing.  
 
