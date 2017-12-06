@@ -1,0 +1,14 @@
+LET A 2 2 +
+
+
+
+
+
+
+
+
+
+
+
+2 2
+Error occurs on "Line 2" even though there are tons of lines between the two operations
