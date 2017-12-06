@@ -47,6 +47,15 @@ public class StatementTest {
     }
 
     @Test
+    public void testStatementValidLetLargeNumbers(){
+        String expected = "9999999999999999999999999999999999999";
+        String observed = testStatement.parseString("let x 9999999999999999999999999999999999999");
+        assertEquals(expected, observed);
+        assertTrue(testStatement.isLet());
+        assertFalse(testStatement.isError());
+    }
+
+    @Test
     public void testStatementEmptyStackLet() {
         String expected = "Line 2: Operator LET applied to empty stack";
         String observed = testStatement.parseString("let a");

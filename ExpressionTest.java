@@ -13,7 +13,6 @@ public class ExpressionTest {
         testExpression = new Expression();
     }
 
-    /******************************** replaceVariables() TESTS **************************************/
     // Test that the replaceVariables method does in fact replace
     // variables when they all exist in the HashMap
     @Test
@@ -116,7 +115,6 @@ public class ExpressionTest {
         String observed = testExpression.replaceVariables("", testMap);
     }
 
-    /******************************** replaceVariables TESTS **************************************/
     // Test that the evaluate method works for very simple expressions
     @Test
     public void testEvaluateBasicExpression(){

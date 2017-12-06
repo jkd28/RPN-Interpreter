@@ -1,13 +1,13 @@
 import java.util.Scanner;
 import java.util.HashMap;
 import java.math.BigInteger;
+import java.util.ArrayList;
 
 public class RPN {
-    public static int repl() {
+    public static int replMode() {
         Scanner reader = new Scanner(System.in);
         HashMap<String,BigInteger> variableMap = new HashMap<String, BigInteger>();
         boolean quitSignal = false;
-        int errorReport = 0;
         int lineNum = 1;
         String input;
 
@@ -34,16 +34,33 @@ public class RPN {
             quitSignal = line.isQuit();
             lineNum++;
         }
-        return errorReport;
+        return 0;
+    }
+
+    public static int fileMode(String[] args) {
+        int errorCode = 0;
+        FileConcatenator fileCat = new FileConcatenator();
+
+        for (String filename : args) {
+            fileCat.addFile(filename);
+            if (fileCat.getErrorCode() != 0) {
+                System.out.println(fileCat.getErrorMessage());
+                return fileCat.getErrorCode();
+            }
+            return fileCat.getErrorCode();
+        }
+
+        return errorCode;
     }
 
     public static void main(String[] args) {
         try {
             int error = 0;
             if (args.length == 0) {
-                error = repl();
+                error = replMode();
             } else {
                 //TODO add file handling
+                error = fileMode(args);
             }
         } catch (RuntimeException e ) {
             System.err.println("An unexpected error occurred.  Exiting...");
