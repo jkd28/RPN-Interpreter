@@ -8,6 +8,16 @@
    | FileConcatenator     | YELLOW       | File Concatenation functions properly.  I have slight concerns about the performance, as it is very heavy on memory.  This leaves an implicit maximum size on files to be read in.  The maximum is incredibly large, so it is not a large concern at this time.  
    | ExpressionEvaluation | GREEN        | Expression Evaluation functions as expected with proper handling of errors and exceptions regarding stack operations.  A look at performance optimization would be nice, but is certainly not required.  
 
+## Areas of Concern
+ In terms of requirements, I have no known defects.  I am hoping my test coverage was good enough, and that I have handled as many potential issues as possible.  That being said, I do have some concerns.  
+
+ My biggest concern is the performance of my FileConcatenator.  The requirements state that we should prefer real time over memory, but I am afraid that my memory usage may be a bit over the top, especially for very large files.  I read the entire file into memory at once, which is sustainable for small files, but as the sizes of the files increase, it can quickly become unsustainable.  The read method was a hotspot when I used VisualVM, but any attempts to optimize it resulted it a slower execution speed, so I kept the implementation as it was.  
+
+ ![Performace Evaluation](https://github.com/jkd28/CS1632-Deliverable6/blob/master/images/PerformanceEvaluation.png "Performance Eval")  
+
+
+
+
 ## Testing Strategies
  1. **What kinds of tests did you write? Why?**  
     First and foremost, I wrote a lot of Unit Tests.  There are many potential failure points throughout this system, and I wanted to be sure that each subsystem (Statement, Expression, FileConcatenator) was able to handle the errors I would expect from those sections.  This however, was not enough by itself.  Those individual subsystems may be able to handle the errors themselves, but assuring that they would report them properly was a separate issue that I would say falls in the realm of Integration Testing.  
