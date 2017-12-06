@@ -96,7 +96,6 @@ public class Expression {
                     operand2 = new BigInteger(expressionStack.pop());
                     operand1 = new BigInteger(expressionStack.pop());
 
-
                     if (operator.equals("+")) {
                         expressionStack.push(operand1.add(operand2).toString());
                     } else if (operator.equals("-")) {

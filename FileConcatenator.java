@@ -51,7 +51,6 @@ public class FileConcatenator {
             this.errorCode = 5;
             return "";
         } catch (IOException e) {
-            e.printStackTrace();
             this.errorMessage = "Error reading from file";
             this.errorCode = 5;
             return "";
