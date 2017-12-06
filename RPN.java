@@ -39,15 +39,45 @@ public class RPN {
 
     public static int fileMode(String[] args) {
         int errorCode = 0;
+        HashMap<String,BigInteger> variableMap = new HashMap<String, BigInteger>();
         FileConcatenator fileCat = new FileConcatenator();
 
+        // Create an array of lines for processing
         for (String filename : args) {
             fileCat.addFile(filename);
+
+            // Handle potential errors in filereading
             if (fileCat.getErrorCode() != 0) {
                 System.out.println(fileCat.getErrorMessage());
                 return fileCat.getErrorCode();
             }
-            return fileCat.getErrorCode();
+        }
+
+        boolean quitSignal = false;
+        int lineNum = 1;
+        ArrayList<String> toEvaluate = fileCat.getCurrentFileString();
+        // Evaluate each line
+        for (String line : toEvaluate) {
+            Statement eval = new Statement(lineNum, variableMap);
+            eval.parseString(line);
+
+            String output = eval.getOutput();
+            if (eval.isLet() && !eval.isError()) {
+                variableMap.put(eval.getVariable(), new BigInteger(output));
+            }
+            // Handle potential errors
+            if (eval.isError()) {
+                System.err.println(output);
+                errorCode = eval.getErrorCode();
+                break;
+            } else if (eval.isPrint()){
+                System.out.println(output);
+            }
+            quitSignal = eval.isQuit();
+            if (quitSignal) {
+                break;
+            }
+            lineNum++;
         }
 
         return errorCode;
@@ -59,9 +89,9 @@ public class RPN {
             if (args.length == 0) {
                 error = replMode();
             } else {
-                //TODO add file handling
                 error = fileMode(args);
             }
+            System.exit(error);
         } catch (RuntimeException e ) {
             System.err.println("An unexpected error occurred.  Exiting...");
             System.exit(5);

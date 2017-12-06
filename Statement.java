@@ -9,6 +9,7 @@ public class Statement {
     private boolean isLetStatement;
     private boolean isPrintStatement;
     private boolean isError;
+    private int errorCode;
     private String variable;
     private int lineNumber;
     private HashMap<String, BigInteger> variableMap;
@@ -19,6 +20,7 @@ public class Statement {
         isLetStatement = false;
         isPrintStatement = false;
         isError = false;
+        errorCode = 0;
         variable = "";
         lineNumber = lineNum;
         variableMap = variables;
@@ -39,6 +41,10 @@ public class Statement {
 
     public boolean isError() {
         return this.isError;
+    }
+
+    public int getErrorCode() {
+        return this.errorCode;
     }
 
     public boolean isLet() {
@@ -62,8 +68,9 @@ public class Statement {
         this.isPrintStatement = true;
     }
 
-    private void setError() {
+    private void setError(int code) {
         this.isError = true;
+        this.errorCode = code;
     }
 
     // Helper methods
@@ -80,11 +87,11 @@ public class Statement {
         String builtOutput = "";
 
         if (brokenLine.length <= 2) {
-            setError();
+            setError(2);
             builtOutput = "Line " + lineNumber + ": Operator LET applied to empty stack";
         }
         else if (!brokenLine[1].matches("^[A-z]$")) {
-            setError();
+            setError(5);
             builtOutput = "Line " + lineNumber + ": Invalid variable name '" + brokenLine[1] + "'"  ;
         } else {
             this.variable = brokenLine[1];
@@ -96,7 +103,7 @@ public class Statement {
             expression.evaluate(replacedLine);
 
             if (expression.error()) {
-                setError();
+                setError(expression.getErrorCode());
                 builtOutput = "Line " + lineNumber + ": " + expression.getErrorMessage();
             } else {
                 builtOutput = expression.getResult();
@@ -114,7 +121,7 @@ public class Statement {
         expression.evaluate(replacedLine);
 
         if (expression.error()) {
-            setError();
+            setError(expression.getErrorCode());
             builtOutput = "Line " + lineNumber + ": " + expression.getErrorMessage();
         } else {
             builtOutput = expression.getResult();
@@ -129,7 +136,7 @@ public class Statement {
 
         // Check that the first entry contains letters and is larger than 1 character long (can't be a variable then)
         if ((lineArray[0].matches(".*[a-z].*")) && (lineArray[0].length() != 1)) {
-            setError();
+            setError(4);
             builtOutput = "Line " + lineNumber + ": Unknown keyword " + lineArray[0];
             return builtOutput;
         }
@@ -138,7 +145,7 @@ public class Statement {
         String replacedLine = expression.replaceVariables(line, variableMap);
         expression.evaluate(replacedLine);
         if (expression.error()) {
-            setError();
+            setError(expression.getErrorCode());
             builtOutput = "Line " + lineNumber + ": " + expression.getErrorMessage();
         } else {
             builtOutput = expression.getResult();

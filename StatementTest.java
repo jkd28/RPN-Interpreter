@@ -27,6 +27,7 @@ public class StatementTest {
         String observed = testStatement.parseString("loop");
         assertEquals(expected, observed);
         assertTrue(testStatement.isError());
+        assertEquals(4, testStatement.getErrorCode());
     }
 
     @Test
@@ -35,6 +36,7 @@ public class StatementTest {
         String observed = testStatement.parseString("garbasdklj sdasdl ajer pjeskfljasff");
         assertEquals(expected, observed);
         assertTrue(testStatement.isError());
+        assertEquals(4, testStatement.getErrorCode());
     }
 
     @Test
@@ -62,6 +64,7 @@ public class StatementTest {
         assertEquals(expected, observed);
         assertTrue(testStatement.isLet());
         assertTrue(testStatement.isError());
+        assertEquals(2, testStatement.getErrorCode());
     }
 
     @Test
@@ -71,6 +74,7 @@ public class StatementTest {
         assertEquals(expected, observed);
         assertTrue(testStatement.isLet());
         assertTrue(testStatement.isError());
+        assertEquals(5, testStatement.getErrorCode());
     }
 
     @Test
@@ -80,6 +84,7 @@ public class StatementTest {
         assertEquals(expected, observed);
         assertTrue(testStatement.isLet());
         assertTrue(testStatement.isError());
+        assertEquals(1, testStatement.getErrorCode());
     }
 
     @Test

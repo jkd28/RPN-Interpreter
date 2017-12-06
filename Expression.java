@@ -8,26 +8,35 @@ public class Expression {
     private String result;
     private String errorMessage;
     private boolean error;
+    private int errorCode;
     private HashMap<String, BigInteger> variableMap;
 
     public Expression() {
         expressionStack = new Stack<String>();
         variableMap = new HashMap<String,BigInteger>();
         error = false;
+        errorCode = 0;
         errorMessage = "";
     }
 
+    // GETTERS
     public String getResult() {
-        return result;
+        return this.result;
     }
 
     public String getErrorMessage() {
-        return errorMessage;
+        return this.errorMessage;
     }
 
     public boolean error() {
-        return error;
+        return this.error;
     }
+
+    public int getErrorCode() {
+        return this.errorCode;
+    }
+
+    // EVALUATION METHODS
     // This method takes a String and a HashMap of variables and replaces each instance of
     // a variable with its stored BigInteger value
     public String replaceVariables(String line, HashMap<String, BigInteger> variables) {
@@ -51,9 +60,10 @@ public class Expression {
                         BigInteger value = variables.get(strValue);
                         line = line.replace(strValue, value.toString());
                     } else {
-                        error = true;
-                        errorMessage = "Variable " + operand + " is not initialized";
-                        return errorMessage;
+                        this.error = true;
+                        this.errorCode = 1;
+                        this.errorMessage = "Variable " + operand + " is not initialized";
+                        return this.errorMessage;
                     }
                 }
             }
@@ -102,10 +112,12 @@ public class Expression {
                 } catch(ArithmeticException e ) {
                     this.error = true;
                     this.errorMessage = "Could not evaluate expression";
+                    this.errorCode = 5;
                     return this.errorMessage;
                 } catch (RuntimeException e){
                     this.error = true;
                     this.errorMessage = "Operator " +  operator + " applied to empty stack";
+                    this.errorCode = 2;
                     return this.errorMessage;
                 }
             }
@@ -125,6 +137,7 @@ public class Expression {
         if (count != 0) {
             this.error = true;
             this.errorMessage = count + " elements in stack after evaluation";
+            this.errorCode = 3;
             return this.errorMessage;
         }
         return this.result;

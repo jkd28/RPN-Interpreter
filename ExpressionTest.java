@@ -27,6 +27,8 @@ public class ExpressionTest {
         String observed = testExpression.replaceVariables(testString, testMap);
 
         assertEquals(expected, observed);
+        assertFalse(testExpression.error());
+        assertEquals(0, testExpression.getErrorCode());
     }
 
     // Test that the replaceVariables method returns a string saying
@@ -42,6 +44,8 @@ public class ExpressionTest {
         String observed = testExpression.replaceVariables(testString, testMap);
 
         assertEquals(expected, observed);
+        assertTrue(testExpression.error());
+        assertEquals(1, testExpression.getErrorCode());
     }
 
     // Test that the replaceVariables method returns an empty string if the provided
@@ -49,6 +53,8 @@ public class ExpressionTest {
     @Test
     public void testReplaceNullMap() {
         assertEquals("", testExpression.replaceVariables("a b +", null));
+        assertFalse(testExpression.error());
+        assertEquals(0, testExpression.getErrorCode());
     }
 
     // Test that the replaceVariables does nothing to a string when variables are
@@ -64,6 +70,8 @@ public class ExpressionTest {
         String expected = "1 12 + 3 - 4 *";
         String observed = testExpression.replaceVariables(testString, testMap);
         assertEquals(expected, observed);
+        assertFalse(testExpression.error());
+        assertEquals(0, testExpression.getErrorCode());
     }
 
     // Test that the replacement works when there is a mix of numbers and variables
@@ -78,6 +86,8 @@ public class ExpressionTest {
         String expected = "1 5 + 3 - 4 *";
         String observed = testExpression.replaceVariables(testString, testMap);
         assertEquals(expected, observed);
+        assertFalse(testExpression.error());
+        assertEquals(0, testExpression.getErrorCode());
     }
 
     // Test that replace works for very large numbers
@@ -90,6 +100,8 @@ public class ExpressionTest {
         String expected = "99999999999999999999999 11111111111111111111111 +";
         String observed = testExpression.replaceVariables(testString, testMap);
         assertEquals(expected, observed);
+        assertFalse(testExpression.error());
+        assertEquals(0, testExpression.getErrorCode());
     }
 
     // Test that replace works for a combination of large and small numbers
@@ -102,6 +114,8 @@ public class ExpressionTest {
         String expected = "99999999999999999999999 3 +";
         String observed = testExpression.replaceVariables(testString, testMap);
         assertEquals(expected, observed);
+        assertFalse(testExpression.error());
+        assertEquals(0, testExpression.getErrorCode());
     }
 
     // Test that replace returns an empty string when sent an empty string
@@ -113,6 +127,9 @@ public class ExpressionTest {
         String testString = "";
         String expected = "";
         String observed = testExpression.replaceVariables("", testMap);
+        assertEquals(expected, observed);
+        assertFalse(testExpression.error());
+        assertEquals(0, testExpression.getErrorCode());
     }
 
     // Test that the evaluate method works for very simple expressions
@@ -122,6 +139,8 @@ public class ExpressionTest {
         String expected = "4";
         String observed = testExpression.evaluate(testString);
         assertEquals(expected, observed);
+        assertFalse(testExpression.error());
+        assertEquals(0, testExpression.getErrorCode());
     }
 
     // Test that the evaluate method works for more complex expressions
@@ -131,6 +150,8 @@ public class ExpressionTest {
         String expected = "91";
         String observed = testExpression.evaluate(testString);
         assertEquals(expected, observed);
+        assertFalse(testExpression.error());
+        assertEquals(0, testExpression.getErrorCode());
     }
 
     // Test that the evaluate method works for exceptionally large numbers
@@ -141,6 +162,8 @@ public class ExpressionTest {
         String expected = "9999999999999999800000000000000001";
         String observed = testExpression.evaluate(testString);
         assertEquals(expected, observed);
+        assertFalse(testExpression.error());
+        assertEquals(0, testExpression.getErrorCode());
     }
 
     // Test that the evaluate method works for exceptionally large numbers
@@ -151,6 +174,8 @@ public class ExpressionTest {
         String expected = "199999999999999999797998006000000000046";
         String observed = testExpression.evaluate(testString);
         assertEquals(expected, observed);
+        assertFalse(testExpression.error());
+        assertEquals(0, testExpression.getErrorCode());
     }
 
     // Test that the method properly returns the number of remaining items in the stack
@@ -161,6 +186,8 @@ public class ExpressionTest {
         String expected = "3 elements in stack after evaluation";
         String observed = testExpression.evaluate(testString);
         assertEquals(expected, observed);
+        assertTrue(testExpression.error());
+        assertEquals(3, testExpression.getErrorCode());
     }
 
     // Test that evaluate properly returns the amount of items left on the stack
@@ -171,6 +198,8 @@ public class ExpressionTest {
         String expected = "1 elements in stack after evaluation";
         String observed = testExpression.evaluate(testString);
         assertEquals(expected, observed);
+        assertTrue(testExpression.error());
+        assertEquals(3, testExpression.getErrorCode());
     }
 
     // Test that evaluate properly returns an error message on invalid input
@@ -180,6 +209,8 @@ public class ExpressionTest {
         String expected = "Could not evaluate expression";
         String observed = testExpression.evaluate(testString);
         assertEquals(expected, observed);
+        assertTrue(testExpression.error());
+        assertEquals(5, testExpression.getErrorCode());
     }
 
     // Test that division by zero is handled
@@ -189,6 +220,8 @@ public class ExpressionTest {
         String expected = "Could not evaluate expression";
         String observed = testExpression.evaluate(testString);
         assertEquals(expected, observed);
+        assertTrue(testExpression.error());
+        assertEquals(5, testExpression.getErrorCode());
     }
 
     // Test that proper message is output for the incorrect inut
@@ -198,6 +231,8 @@ public class ExpressionTest {
         String expected = "Operator + applied to empty stack";
         String observed = testExpression.evaluate(testString);
         assertEquals(expected, observed);
+        assertTrue(testExpression.error());
+        assertEquals(2, testExpression.getErrorCode());
     }
 
 }
