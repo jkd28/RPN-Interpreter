@@ -11,10 +11,9 @@
 ## Areas of Concern
  In terms of requirements, I have no known defects.  I am hoping my test coverage was good enough, and that I have handled as many potential issues as possible.  That being said, I do have some concerns.  
 
- My biggest concern is the performance of my FileConcatenator.  The requirements state that we should prefer real time over memory, but I am afraid that my memory usage may be a bit over the top, especially for very large files.  I read the entire file into memory at once, which is sustainable for small files, but as the sizes of the files increase, it can quickly become unsustainable.  The read method was a hotspot when I used VisualVM, but any attempts to optimize it resulted it a slower execution speed, so I kept the implementation as it was.  
+ My biggest concern is the performance of my FileConcatenator.  The requirements state that we should prefer real time over memory, but I am afraid that my memory usage may be a bit over the top, especially for very large files.  I read the entire file into memory at once, which is sustainable for small files, but as the sizes of the files increase, it can quickly become unsustainable.  The addFile method was a hotspot when I used VisualVM, but any attempts to optimize it resulted it a slower execution speed, so I kept the implementation as it was and cite Requirement 27 as my justification.  
 
  ![Performace Evaluation](https://github.com/jkd28/CS1632-Deliverable6/blob/master/images/PerformanceEvaluation.png "Performance Eval")  
-
 
 
 
@@ -30,8 +29,11 @@
 
     In reference to combinatorial testing, I used the REPL to play with different combinations of factors such as a LET and large number, LET and empty stack, large number and empty stack, Print and large number, etc.  I believe these kinds of combinations were important to test, mostly because a majority of the variation of future inputs would depend on the interactions between these factors.  
 
+    As shown in the image below, I also used some static analysis with FindBugs.  I will discuss the results of FindBugs in a later section.  
+    ![FindBugs](https://github.com/jkd28/CS1632-Deliverable6/blob/master/images/FindBugs.png "FindBugs Results")  
+
  2. **What percentage of time/effort was allocated to each kind of test?**  
-    Throughout the project, I did my best to follow the Pyramid Pattern as we discussed in class.  A majority of my time was spent developing Unit Tests. To quantify it, I would say about 75% of my time testing was specifically on developing and updating the Unit Tests.  After that, I spend a good amount of time (~15%) on System and Integration testing of the REPL and FILE modes, and the various "subsystems" (classes) that I used to build the project.  The remaining 10% was spent on manually testing the outputs for different combinations of inputs in both the REPL and FILE modes.  I did not want to spend too much time making manual tests, since there is an infinite amount of combinations I could end up testing; however, I did realize that these manual tests would be very important in evaluating the behavior of files especially, since they are difficult to tests with Unit Tests.  
+    Throughout the project, I did my best to follow the Pyramid Pattern as we discussed in class.  A majority of my time was spent developing Unit Tests. To quantify it, I would say about 75% of my time testing was specifically on developing and updating the Unit Tests.  After that, I spend a good amount of time (~15%) on System and Integration testing of the REPL and FILE modes, and the various "subsystems" (classes) that I used to build the project.  The remaining 10% was spent on manually testing the outputs for different combinations of inputs in both the REPL and FILE modes.  I did not want to spend too much time making manual tests, since there is an infinite amount of combinations I could end up testing; however, I did realize that these manual tests would be very important in evaluating the behavior of files especially, since they are difficult to tests with Unit Tests. These manual tests also include static analysis of the compiled files to a small degree. 
 
  3. **What recommendations would you give to increase quality?**  
     I have several ideas for increasing the quality of my project:
