@@ -87,7 +87,8 @@ public class RPN {
     }
 
     public static void main(String[] args) {
-        // try {
+        // Use try-catch to gracefully exit in case of unforseen errors
+        try {
             int error = 0;
             if (args.length == 0) {
                 error = replMode();
@@ -95,10 +96,9 @@ public class RPN {
                 error = fileMode(args);
             }
             System.exit(error);
-        // } catch (RuntimeException e ) {
-        //     e.printStackTrace();
-        //     System.err.println("An unexpected error occurred.  Exiting...");
-        //     System.exit(5);
-        // }
+        } catch (RuntimeException e ) {
+            System.err.println("An unexpected error occurred.  Exiting...");
+            System.exit(5);
+        }
     }
 }
