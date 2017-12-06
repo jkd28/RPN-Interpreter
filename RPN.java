@@ -96,6 +96,9 @@ public class RPN {
                 error = fileMode(args);
             }
             System.exit(error);
+        } catch(OutOfMemoryError e) {
+            System.err.println("ERROR: Size of file exceeds allotted memory.");
+            System.exit(5);
         } catch (RuntimeException e ) {
             System.err.println("An unexpected error occurred.  Exiting...");
             System.exit(5);
