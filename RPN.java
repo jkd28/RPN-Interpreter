@@ -56,7 +56,7 @@ public class RPN {
         }
 
         boolean quitSignal = false;
-        int lineNum = 1;
+        long lineNum = 1;
         ArrayList<String> toEvaluate = fileCat.getCurrentFileString();
         // Evaluate each line
         for (String line : toEvaluate) {
