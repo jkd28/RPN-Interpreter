@@ -13,6 +13,7 @@ public class StatementTest {
         testStatement = new Statement(2, testMap);
     }
 
+    // Test that parseString produces the correct result for a simple expression
     @Test
     public void testStatementNoKeywordSimpleExpression() {
         String expected = "4";
@@ -21,6 +22,8 @@ public class StatementTest {
         assertFalse(testStatement.isError());
     }
 
+    // Test that an Unknown keyword error is generated when parseString
+    // is called with an invalid keyword
     @Test
     public void testStatementInvalidKeyword() {
         String expected = "Line 2: Unknown keyword loop";
@@ -30,6 +33,8 @@ public class StatementTest {
         assertEquals(4, testStatement.getErrorCode());
     }
 
+    // Test that an unknown keyword error is generated when garbage is sent
+    // to the parseString merhod.
     @Test
     public void testStatementGarbage() {
         String expected = "Line 2: Unknown keyword garbasdklj";
@@ -39,6 +44,8 @@ public class StatementTest {
         assertEquals(4, testStatement.getErrorCode());
     }
 
+    // test that the parseString produces a correct value
+    // when provided a valid statement with the LET keyword
     @Test
     public void testStatementValidLet() {
         String expected = "12";
@@ -48,6 +55,7 @@ public class StatementTest {
         assertFalse(testStatement.isError());
     }
 
+    // test that parseSting works with LET and large numbers
     @Test
     public void testStatementValidLetLargeNumbers(){
         String expected = "9999999999999999999999999999999999999";
@@ -57,6 +65,8 @@ public class StatementTest {
         assertFalse(testStatement.isError());
     }
 
+    // Test that an "applied to empty stack" error is generated when an invalid
+    // LET statement is provided
     @Test
     public void testStatementEmptyStackLet() {
         String expected = "Line 2: Operator LET applied to empty stack";
@@ -67,6 +77,8 @@ public class StatementTest {
         assertEquals(2, testStatement.getErrorCode());
     }
 
+    // Test that parseSting generates a "could not evaluate" error when
+    // provided with an unreadable expression
     @Test
     public void testStatementInvalidExpressionLet() {
         String expected = "Line 2: Could not evaluate expression";
@@ -77,6 +89,8 @@ public class StatementTest {
         assertEquals(5, testStatement.getErrorCode());
     }
 
+    // Test that an uninitialized variable is properly detected when sent
+    // to parseString
     @Test
     public void testStatementUninitializedVariableLet() {
         String expected = "Line 2: Variable b is not initialized";
@@ -87,6 +101,7 @@ public class StatementTest {
         assertEquals(1, testStatement.getErrorCode());
     }
 
+    // Test that a QUIT statement is properly evaluated from parseSting
     @Test
     public void testStatementQuit() {
         String expected = "";
@@ -97,6 +112,7 @@ public class StatementTest {
         assertFalse(testStatement.isError());
     }
 
+    // Test that anything following a QUIT statement is ignored by parseSting
     @Test
     public void testStatementQuitIgnoreFollowing() {
         String expected = "";
