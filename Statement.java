@@ -116,10 +116,18 @@ public class Statement {
         String builtOutput = "";
         // We have a PRINT keyword, the rest of the line is the expression
         String newLine = buildNewString(1, brokenLine);
+        // Handle empty print statements
+        if (newLine.length() < 1) {
+            setError(2);
+            builtOutput = "Line " + lineNumber + ": Operator PRINT applied to empty stack";
+            return builtOutput;
+        }
+
         expression = new Expression();
         String replacedLine = expression.replaceVariables(newLine, variableMap);
         expression.evaluate(replacedLine);
 
+        // Check for error in expression evaluation
         if (expression.error()) {
             setError(expression.getErrorCode());
             builtOutput = "Line " + lineNumber + ": " + expression.getErrorMessage();
@@ -144,6 +152,8 @@ public class Statement {
         expression = new Expression();
         String replacedLine = expression.replaceVariables(line, variableMap);
         expression.evaluate(replacedLine);
+
+        // Check for error in expression evaluation
         if (expression.error()) {
             setError(expression.getErrorCode());
             builtOutput = "Line " + lineNumber + ": " + expression.getErrorMessage();

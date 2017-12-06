@@ -2,10 +2,13 @@ import java.util.Scanner;
 import java.util.HashMap;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class RPN {
     public static int replMode() {
         Scanner reader = new Scanner(System.in);
+        reader.useLocale(Locale.US);
+
         HashMap<String,BigInteger> variableMap = new HashMap<String, BigInteger>();
         boolean quitSignal = false;
         int lineNum = 1;
@@ -13,7 +16,7 @@ public class RPN {
 
         while (!quitSignal) {
             System.out.print("> ");
-            input = (reader.nextLine()).trim().toLowerCase();
+            input = (reader.nextLine()).trim().toLowerCase(Locale.US);
             if (input.equals("")) {
                 lineNum++;
                 continue;
@@ -84,7 +87,7 @@ public class RPN {
     }
 
     public static void main(String[] args) {
-        try {
+        // try {
             int error = 0;
             if (args.length == 0) {
                 error = replMode();
@@ -92,9 +95,10 @@ public class RPN {
                 error = fileMode(args);
             }
             System.exit(error);
-        } catch (RuntimeException e ) {
-            System.err.println("An unexpected error occurred.  Exiting...");
-            System.exit(5);
-        }
+        // } catch (RuntimeException e ) {
+        //     e.printStackTrace();
+        //     System.err.println("An unexpected error occurred.  Exiting...");
+        //     System.exit(5);
+        // }
     }
 }

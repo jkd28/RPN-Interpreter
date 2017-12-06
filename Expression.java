@@ -9,11 +9,9 @@ public class Expression {
     private String errorMessage;
     private boolean error;
     private int errorCode;
-    private HashMap<String, BigInteger> variableMap;
 
     public Expression() {
         expressionStack = new Stack<String>();
-        variableMap = new HashMap<String,BigInteger>();
         error = false;
         errorCode = 0;
         errorMessage = "";

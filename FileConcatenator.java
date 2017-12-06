@@ -4,6 +4,7 @@ import java.nio.file.Paths;
 import java.io.IOException;
 import java.nio.file.NoSuchFileException;
 import java.util.Scanner;
+import java.util.Locale;
 
 public class FileConcatenator {
     ArrayList<String> combinedFileLines;
@@ -41,7 +42,7 @@ public class FileConcatenator {
         try {
             byte[] encoded = Files.readAllBytes(Paths.get(filename));
             String entireFile = new String(encoded, "UTF-8");
-            return entireFile.toLowerCase();
+            return entireFile.toLowerCase(Locale.US);
         } catch (NoSuchFileException e) {
             this.errorMessage = "Could not find file '" + filename + "'";
             this.errorCode = 5;
