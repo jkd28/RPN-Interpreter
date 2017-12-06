@@ -51,7 +51,7 @@ public class RPN {
 
             // Handle potential errors in filereading
             if (fileCat.getErrorCode() != 0) {
-                System.out.println(fileCat.getErrorMessage());
+                System.err.println(fileCat.getErrorMessage());
                 return fileCat.getErrorCode();
             }
         }
