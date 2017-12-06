@@ -92,9 +92,10 @@ public class Expression {
                 try {
                     noOperand = false;
 
+                    operator = tokenReader.next();
                     operand2 = new BigInteger(expressionStack.pop());
                     operand1 = new BigInteger(expressionStack.pop());
-                    operator = tokenReader.next();
+
 
                     if (operator.equals("+")) {
                         expressionStack.push(operand1.add(operand2).toString());
