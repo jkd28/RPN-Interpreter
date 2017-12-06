@@ -29,11 +29,8 @@
 
     In reference to combinatorial testing, I used the REPL to play with different combinations of factors such as a LET and large number, LET and empty stack, large number and empty stack, Print and large number, etc.  I believe these kinds of combinations were important to test, mostly because a majority of the variation of future inputs would depend on the interactions between these factors.  
 
-    As shown in the image below, I also used some static analysis with FindBugs.  I will discuss the results of FindBugs in a later section.  
-    ![FindBugs](https://github.com/jkd28/CS1632-Deliverable6/blob/master/images/FindBugs.png "FindBugs Results")  
-
  2. **What percentage of time/effort was allocated to each kind of test?**  
-    Throughout the project, I did my best to follow the Pyramid Pattern as we discussed in class.  A majority of my time was spent developing Unit Tests. To quantify it, I would say about 75% of my time testing was specifically on developing and updating the Unit Tests.  After that, I spend a good amount of time (~15%) on System and Integration testing of the REPL and FILE modes, and the various "subsystems" (classes) that I used to build the project.  The remaining 10% was spent on manually testing the outputs for different combinations of inputs in both the REPL and FILE modes.  I did not want to spend too much time making manual tests, since there is an infinite amount of combinations I could end up testing; however, I did realize that these manual tests would be very important in evaluating the behavior of files especially, since they are difficult to tests with Unit Tests. These manual tests also include static analysis of the compiled files to a small degree. 
+    Throughout the project, I did my best to follow the Pyramid Pattern as we discussed in class.  A majority of my time was spent developing Unit Tests. To quantify it, I would say about 75% of my time testing was specifically on developing and updating the Unit Tests.  After that, I spend a good amount of time (~15%) on System and Integration testing of the REPL and FILE modes, and the various "subsystems" (classes) that I used to build the project.  The remaining 10% was spent on manually testing the outputs for different combinations of inputs in both the REPL and FILE modes.  I did not want to spend too much time making manual tests, since there is an infinite amount of combinations I could end up testing; however, I did realize that these manual tests would be very important in evaluating the behavior of files especially, since they are difficult to tests with Unit Tests. These manual tests also include static analysis of the compiled files to a small degree.
 
  3. **What recommendations would you give to increase quality?**  
     I have several ideas for increasing the quality of my project:
@@ -54,7 +51,7 @@
 
     * With a little more time, it is likely that I could find a better way to organize my `Statement.java` class and keep it testable.  
 
-    * I didn't have time to set new configurations for a Linter, but I'm sure my code could use some static analysis other than `Findbugs`.  I did my best to stay consistent in my style, but I am nearly positive that there is some inconsistency throughout the whole proejct.  
+    * I didn't have time to set new configurations for a Linter, but I'm sure my code could use some static analysis other than `Findbugs`.  I did my best to stay consistent in my style, but I am nearly positive that there is some inconsistency throughout the whole project.  
 
  5. **What kinds of things did you discover in exploratory testing?**  
     After my initial implementation, I performed a lot of exploratory testing through the use of the REPL.  This allowed me to play around with combinations of values and variables much quicker than if I was repeatedly writing new unit tests over and over again for different values.  Interestingly, I did find a few different errors through my REPL exploration:
@@ -70,7 +67,11 @@
 
     * I discovered that my program would not properly halt when I encountered an error in a line when evaluating multiple files.  
 
-    In summary, through exploratory testing I discovered a few issues that were not necessarily detectable simply through my automated tests.  This was especially important for the file operations, which are TUFs.
+    I would also include the bit of static analysis I did with `FindBugs` as exploratory testing.  This was actually one of my favorite parts of the project, since it revealed something to me that I never would have throught of.  Because of the way I read in the strings and convert them to lower case (in both REPL and FILE), the encoding of the characters I am handling could have a major impact on the outcome of that function.  `FindBugs` reported this to me and suggested that I use `Locale.US` to make sure the characters would be treated as I would expect explicitly (without relying on the default Locale).  
+    ![FindBugs](https://github.com/jkd28/CS1632-Deliverable6/blob/master/images/FindBugs.png "FindBugs Result")  
+
+    In summary, through exploratory testing I discovered a few issues that were not necessarily detectable simply through my automated tests.  This was especially important for the file operations, which are TUFs.  
+
  6. **Manual Test Plan**  
     I did not develop a specific Manual Test Plan for this assignment; however, I did recognize the importance of manual testing here and followed some guidelines as I tested.  Firstly, I built some test files that allowed me to standardize my manual tests.  I would run the file with a specific output in mind and then compare it to the observed result.  This allowed me to change the contents/operations of the file on the fly and see how different types of operations would interact with each other.  A few of these files are on GitHub in the `testfiles` directory.  
 
