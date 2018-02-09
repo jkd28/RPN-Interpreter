@@ -1,4 +1,22 @@
-# CS1632-Deliverable6
+# RPN
+## A Java-based interpreter for a made-up language
+This project acts as an interpreter for the language `RPN++`.  This was a language made up by my instructor, and the details were specified in the design requirements for the project.  The system has 2 methods of interpretation:
+  * __FILE__  
+    Takes a file written in `RPN++` and executes it in accordance with the requirements of the language
+  * __REPL__  
+    Real-time interpretation of the language via command-line input
+
+The interpreter will also identify the type of error that occurs when improper input is detected.  This was a hefty section of the development process and was the source of most issues I encountered during the course of the project.  
+
+
+Each of these features introduced their own challenges in both design and performance. If you are interested in the details of my design and testing process, the following sections of this document outline my process and issues I encountered, as well as my solutions.  
+
+## But, why?
+This project was an assignment for my Software Quality Assurance class at the University of Pittsburgh in the Fall 2017 semester.  The main concept revolved around the design of a system from scratch given a list of unchangeable requirements.  These requirements noted several aspects of system performance as well as necessary features for the project.  In addition to the design of the system as a whole, I was required to create a functional test suite for my system.  This includes unit tests, performance analysis, static code analysis, and a few other techniques for quality assurance of code.  
+
+#### Below is the detailed report I handed in following the development and testing of the system.  The time-frame for this project was 2 Weeks.  
+
+# Software Quality Assurance - Deliverable 6
 ## Red-Yellow-Green Report  
    | **Subsystems**       | Status  | Description |
    |----------------------|:-------------|-------------|
